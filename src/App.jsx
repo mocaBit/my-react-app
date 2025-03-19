@@ -1,11 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+
+const llamarLambda = async () => {
+  try {
+    const response = await fetch(
+      "https://eca3kv41n4.execute-api.us-east-2.amazonaws.com/default/citasCelebres",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log("Respuesta de Lambda:", data);
+  } catch (error) {
+    console.error("Error llamando a Lambda:", error);
+  }
+};
+
+llamarLambda();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
+  useEffect(() => {
+    llamarLambda();
+  }, []);
   return (
     <>
       <div>
@@ -29,7 +53,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
